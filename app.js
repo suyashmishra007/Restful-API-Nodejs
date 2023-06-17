@@ -9,14 +9,8 @@ const PORT = process.env.PORT || 3000;
 // Connecting to database
 connectDatabase(process.env.DB_URI);
 
-// Creating own middleware
-// const middleware = (req, res, next) => {
-//   console.log("Inside middleware");
-//   req.user = "Suyahs";
-//   next();
-// };
-
-// app.use(middleware);
+// Setup bodyparser
+app.use(express.json());
 
 // Importing all routes
 const jobs = require("./routes/jobs");
