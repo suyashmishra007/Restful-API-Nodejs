@@ -23,23 +23,23 @@ const minEducationValues = ["Bachelors", "Masters", "Doctorate"];
 const jobSchema = new Schema({
   title: {
     type: String,
-    required: true,
-    trim: true,
-    maxLength: 100,
+    required : [true, 'Please enter Job title.'],
+    trim : true,
+    maxlength : [100, 'Job title can not exceed 100 characters.']
   },
   slug: String,
   description: {
-    type: String,
-    required: true,
-    maxLength: 1000,
+    type : String,
+    required : [true, 'Please enter Job description.'],
+    maxlength : [1000, 'Job description can not exceed 1000 characters.']
   },
   email: {
     type: String,
-    // validate: validator.isEmail,
-  },
+    validate : [validator.isEmail, 'Please add a valid email address.']
+},
   address: {
     type: String,
-    required: true,
+    required : [true, 'Please add an address.']
   },
   // * LOCATION
   location: {
@@ -56,25 +56,25 @@ const jobSchema = new Schema({
   },
   company: {
     type: String,
-    required: true,
+    required : [true, 'Please add Company name.']
   },
   industry: {
     type: [String],
-    required: true,
+    required : [true , 'Please enter industry for this job.'],
     enum: {
       values: industryValues,
     },
   },
   jobType: {
     type: String,
-    required: true,
+    required : [true, 'Please enter job type.'],
     enum: {
       values: JobTypesValues,
     },
   },
   minEducation: {
     type: String,
-    required: true,
+    required : [true, 'Please enter minimum education for this job.'],
     enum: {
       values: minEducationValues,
     },
@@ -85,14 +85,15 @@ const jobSchema = new Schema({
   },
   experience: {
     type: String,
-    required: true,
+    required : [true, 'Please enter experience required for this job.'],
     enum: {
       values: experienceValues,
+      message : 'Please select correct options for Experience.'
     },
   },
   salary: {
     type: Number,
-    required: true,
+    required : [true, 'Please enter expected salary for this job.'],
   },
   postingDate: {
     type: Date,

@@ -1,15 +1,19 @@
+const catchAsyncError = require("../middlewares/catchAsyncError");
 const JobModel = require("../models/jobs");
+const ErrorHandler = require("../utils/errorHandler");
 const geocoder = require("../utils/geocoder");
 const jobsController = {
   // Create a new Job => api/v1/job/new
-  newJob: async (req, res, next) => {
+  // TODO: add catchAsyncError to every function
+  // TODO: add return next(new ErrorHandler('Job not found' , 404)); in required functions.
+  newJob: catchAsyncError(async (req, res, next) => {
     const job = await JobModel.create(req.body);
     res.status(200).json({
       success: true,
       message: "Job Created",
       data: job,
     });
-  },
+  }),
 
   // Get all Jobs => api/v1/jobs
   getJobs: async (req, res, next) => {
@@ -56,9 +60,13 @@ const jobsController = {
   },
 
   // Update the job => api/v1/job/:_id
-  updateJob: async (req, res) => {
+  updateJob: async (req, res,next) => {
     // const updateJob = await JobModel.findOneAndUpdate()
     const { _id } = req.params;
+    const job = await JobModel.findOne({_id});
+    if(!job){
+      return next(new ErrorHandler('Job not found' , 404));
+    }
     const updateJob = await JobModel.findByIdAndUpdate(
       {
         _id,
