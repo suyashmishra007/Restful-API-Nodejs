@@ -2,6 +2,7 @@ const catchAsyncError = require("../middlewares/catchAsyncError");
 const JobModel = require("../models/jobs");
 const ErrorHandler = require("../utils/errorHandler");
 const geocoder = require("../utils/geocoder");
+const APIFilters = require('../utils/apiFilters');
 const jobsController = {
   // Create a new Job => api/v1/job/new
   // TODO: add catchAsyncError to every function
@@ -17,7 +18,9 @@ const jobsController = {
 
   // Get all Jobs => api/v1/jobs
   getJobs: async (req, res, next) => {
-    const jobs = await JobModel.find();
+    const apiFilters = new APIFilters(JobModel.find(), req.query).filter();
+    const jobs = await apiFilters.query;
+
     res.status(200).json({
       success: true,
       results: jobs.length,
