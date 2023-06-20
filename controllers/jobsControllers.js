@@ -18,7 +18,7 @@ const jobsController = {
 
   // Get all Jobs => api/v1/jobs
   getJobs: async (req, res, next) => {
-    const apiFilters = new APIFilters(JobModel.find(), req.query).filter();
+    const apiFilters = new APIFilters(JobModel.find(), req.query).filter().sort().limitFields().searchByQuery().pagination();
     const jobs = await apiFilters.query;
 
     res.status(200).json({
