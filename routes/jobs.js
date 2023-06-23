@@ -1,6 +1,7 @@
 const express = require("express");
 const jobsController = require("../controllers/jobsControllers");
 const router = express.Router();
+const {isAuthenticatedUser , authorizedRole } = require('../middlewares/auth');
 
 router.get("/jobs", jobsController.getJobs);
 
@@ -8,12 +9,12 @@ router.get("/job/:_id/:slug", jobsController.getJob);
 
 router.get("/stats/:topic", jobsController.jobStats);
 
-router.post("/job/new", jobsController.newJob);
-
 router.get("/jobs/:zipcode/:distance", jobsController.getJobsInRadius);
 
-router.put("/job/:_id", jobsController.updateJob);
+router.post("/job/new", isAuthenticatedUser,authorizedRole('admin', 'employeer'), jobsController.newJob);
 
-router.delete("/job/:_id", jobsController.deleteJob);
+router.put("/job/:_id", isAuthenticatedUser, authorizedRole('admin', 'employeer'),jobsController.updateJob);
+
+router.delete("/job/:_id", isAuthenticatedUser,authorizedRole('admin', 'employeer'),jobsController.deleteJob);
 
 module.exports = router;

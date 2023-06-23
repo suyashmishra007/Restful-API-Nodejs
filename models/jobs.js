@@ -3,6 +3,8 @@ const validator = require("validator");
 const { Schema } = mongoose;
 const slugify = require("slugify");
 const geocoder = require("../utils/geocoder");
+const UserModel = require("../models/users");
+
 const experienceValues = [
   "No Experience",
   "1-2 Years",
@@ -107,6 +109,11 @@ const jobSchema = new Schema({
     type: [Object],
     select: false,
   },
+  user : {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  }
 });
 
 // Creating job-slug before saving

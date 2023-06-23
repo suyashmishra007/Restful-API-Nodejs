@@ -1,11 +1,10 @@
 const express = require("express");
 const connectDatabase = require("./utils/database");
+const cookieParser = require('cookie-parser');
 const app = express();
 const errorMiddleware = require('./middlewares/error');
 const ErrorHandler = require("./utils/errorHandler");
-
 require("dotenv").config();
-
 const PORT = process.env.PORT || 3000;
 
 // handling uncaught exception
@@ -21,9 +20,14 @@ connectDatabase();
 // Setup bodyparser
 app.use(express.json());
 
+// Set cookie parser
+app.use(cookieParser());
+
 // Importing all routes
 const jobs = require("./routes/jobs");
+const auth = require("./routes/auth");
 app.use("/api/v1", jobs);
+app.use("/api/v1", auth);
 
 
 // Handle unhandled routes

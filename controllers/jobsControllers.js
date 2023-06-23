@@ -8,6 +8,11 @@ const jobsController = {
   // TODO: add catchAsyncError to every function
   // TODO: add return next(new ErrorHandler('Job not found' , 404)); in required functions.
   newJob: catchAsyncError(async (req, res, next) => {
+
+    // adding user to the body
+    req.body.user = req.user.id;
+
+
     const job = await JobModel.create(req.body);
     res.status(200).json({
       success: true,
