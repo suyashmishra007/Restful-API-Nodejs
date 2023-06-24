@@ -12,7 +12,12 @@ const userController = {
         } = req.user._id;
         const user = await UserModel.findById({
             _id
-        });
+        })
+        TODO:
+        // .populate({
+        //     path : 'jobsPublished',
+        //     select : 'title postingDate'
+        // });
 
         res.status(200).json({
             success: true,

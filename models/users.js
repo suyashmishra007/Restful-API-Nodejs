@@ -88,12 +88,13 @@ userSchema.methods.getResetPasswordToken = async function(){
 }
 
 // show all jobs created by the user using virtual
-userSchema.virtual('jobPublished',{
-    ref : 'Job',
-    localField : '_id',
-    foreignField : 'user',
-    justOne : false
-})
+// TODO: {{DOMAIN}}/api/v1/me
+// userSchema.virtual('jobsPublished',{
+//     ref : 'UserModel',
+//     localField : '_id',
+//     foreignField : 'JobModel',
+//     justOne : false
+// })
 
 // Create a model
 const UserModel = mongoose.model('User', userSchema);
