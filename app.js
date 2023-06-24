@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const errorMiddleware = require('./middlewares/error');
 const ErrorHandler = require("./utils/errorHandler");
+const fileUpload = require('express-fileupload');
 require("dotenv").config();
 const PORT = process.env.PORT || 3000;
 
@@ -23,11 +24,18 @@ app.use(express.json());
 // Set cookie parser
 app.use(cookieParser());
 
+// enable the express-fileupload 
+app.use(
+  fileUpload()
+);
+
 // Importing all routes
 const jobs = require("./routes/jobs");
 const auth = require("./routes/auth");
+const user = require("./routes/user");
 app.use("/api/v1", jobs);
 app.use("/api/v1", auth);
+app.use("/api/v1", user);
 
 
 // Handle unhandled routes

@@ -17,4 +17,6 @@ router.put("/job/:_id", isAuthenticatedUser, authorizedRole('admin', 'employeer'
 
 router.delete("/job/:_id", isAuthenticatedUser,authorizedRole('admin', 'employeer'),jobsController.deleteJob);
 
+router.put("/job/:id/apply", isAuthenticatedUser,authorizedRole('user'),jobsController.applyToJob);
+
 module.exports = router;
