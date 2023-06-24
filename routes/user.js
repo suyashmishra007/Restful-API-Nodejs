@@ -9,7 +9,15 @@ router.put('/password/update',isAuthenticatedUser,userController.updateCurrentUs
 
 router.put('/me/update',isAuthenticatedUser,userController.updateUserData);
 
+// TODO: Testing left for below routes
 router.delete('/me/delete',isAuthenticatedUser,userController.deleteUser);
+
+router.get('/jobs/applied',isAuthenticatedUser,authorizedRole('user'),userController.getAppliedJobs);
+
+router.get('/jobs/published',isAuthenticatedUser,authorizedRole('admin', 'employeer'),userController.getPublishedJobs);
+
+// TODO: Postman route making pending.
+router.get('/users',isAuthenticatedUser,authorizedRole('admin'),userController.getUsers);
 
 
 

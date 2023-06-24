@@ -107,7 +107,7 @@ updateJob : catchAsyncError(async (req, res, next) => {
             if (err) return console.log(err);
         });
     }
-    
+     
     JobModel = await JobModel.findByIdAndDelete(req.params.id);
     
     res.status(200).json({
