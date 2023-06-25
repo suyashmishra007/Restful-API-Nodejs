@@ -7,6 +7,11 @@ const ErrorHandler = require("./utils/errorHandler");
 const fileUpload = require('express-fileupload');
 require("dotenv").config();
 const PORT = process.env.PORT || 3000;
+const rateLimit = require('express-rate-limit')
+const helmet =  require("helmet");
+const mongoSanitize = require('express-mongo-sanitize');
+const hpp = require('hpp');
+const cors = require('cors')
 
 // handling uncaught exception
 process.on("uncaughtException",err =>{
@@ -18,6 +23,9 @@ process.on("uncaughtException",err =>{
 // Connecting to database
 connectDatabase();
 
+// Setup security header
+app.use(helmet());
+
 // Setup bodyparser
 app.use(express.json());
 
@@ -28,6 +36,22 @@ app.use(cookieParser());
 app.use(
   fileUpload()
 );
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max : 100
+})
+app.use(limiter); 
+
+// Sanitize data
+app.use(mongoSanitize());
+
+// Prevent paramerter pollution
+app.use(hpp()); 
+
+// Setup Cors : Accessable by other domain
+app.use(cors())
 
 // Importing all routes
 const jobs = require("./routes/jobs");
